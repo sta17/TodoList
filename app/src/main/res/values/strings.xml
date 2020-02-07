@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TodoList</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="temp_text">Temp</string>
+    <string name="preferences_loaded">Preferences Loaded</string>
+    <string name="new_app_set_up">New App Set up</string>
+    <string name="writenote">Write Your Note</string>
+    <string name="hint_password">Your Note</string>
+    <string name="credit">Credits</string>
+    <string name="pin_marker">pin marker</string>
+    <string name="todo">TODO</string>
+</resources>

@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/Black</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.ButtonTransparent" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/Transparent</item>
+    </style>
+
+    <style name="AppTheme.ButtonYellow" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.ButtonTheme" parent="AppTheme">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/border_button</item>
+    </style>
+
+    <style name="AppTheme.DialogTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/AppTheme.ButtonTheme</item>
+    </style>
+
+</resources>

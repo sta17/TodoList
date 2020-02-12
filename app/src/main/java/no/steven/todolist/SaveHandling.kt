@@ -7,9 +7,16 @@ import java.io.*
 
 //list saving.
 @Throws(IOException::class)
-internal fun saveList(noteList: List<String>, filename: String, downloadLocation: File) {
+internal fun saveList(noteList: MutableList<Note>, filename: String, downloadLocation: File) {
 
-    val text = noteList.map { '"' + it + '"' }.toMutableList().toString()
+    var temp: MutableList<String> = mutableListOf("temp")
+    temp.remove("temp")
+
+    for(item in  noteList){
+        temp.add(item.content)
+    }
+
+    val text = temp.map { '"' + it + '"' }.toMutableList().toString()
 
     var fos: FileOutputStream? = null
     try {
@@ -36,7 +43,7 @@ internal fun saveList(noteList: List<String>, filename: String, downloadLocation
 
 //loads a list.
 @Throws(IOException::class)
-internal fun loadList(filename: String, downloadLocation: File): MutableList<String> {
+internal fun loadList(filename: String, downloadLocation: File): MutableList<Note> {
     var fis: FileInputStream? = null
 
     try {
@@ -52,7 +59,16 @@ internal fun loadList(filename: String, downloadLocation: File): MutableList<Str
             return mutableListOf()
         }
 
-        return initialInput.split(",").map { it.trim() }.map{ it.dropLast(1)}.map{ it.drop(1)}.map { it.trim() }.toMutableList()
+        var initialList = initialInput.split(",").map { it.trim() }.map{ it.dropLast(1)}.map{ it.drop(1)}.map { it.trim() }.toMutableList()
+
+        var temp: MutableList<Note> = mutableListOf(Note("temp",false))
+        temp.removeAt(0)
+
+        for(item in  initialList){
+            temp.add(Note(item,false))
+        }
+
+        return temp;
     } finally {
         if (fis != null) {
             try {

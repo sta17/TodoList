@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/Transparent"
     android:orientation="horizontal"
     android:paddingStart="5dp"
     android:paddingTop="5dp"
@@ -14,40 +12,45 @@
     android:paddingBottom="5dp"
     android:theme="@style/AppTheme.ButtonTransparent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/border"
-        android:orientation="horizontal"
-        android:paddingStart="5dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="5dp"
-        android:paddingBottom="5dp"
-        android:theme="@style/AppTheme.ButtonTransparent">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/notebutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="start|center_vertical"
-            android:includeFontPadding="false"
-            android:text="@string/temp_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/noteimage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/transparent"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            android:theme="@style/AppTheme.ButtonTransparent">
 
-        <ImageButton
-            android:id="@+id/noteimage"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:backgroundTint="@color/Transparent"
-            android:contentDescription="@string/todo"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/notebutton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="start|center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/temp_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/noteimage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+            <ImageButton
+                android:id="@+id/noteimage"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:backgroundTint="@color/Transparent"
+                android:contentDescription="@string/todo"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

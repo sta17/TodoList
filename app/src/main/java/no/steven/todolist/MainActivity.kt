@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
@@ -25,14 +24,19 @@ import java.io.File
 // https://www.flaticon.com/free-icon/delete_1214428?term=garbage&page=1&position=4 - delete icon
 // https://www.flaticon.com/free-icon/pen_1159725 - add icon
 // https://www.flaticon.com/free-icon/pin_2491655?term=pin&page=1&position=20 - pin Icon
+
+data class Note (
+    var content: String,
+    var selected: Boolean
+)
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private var noteList = mutableListOf<String>()
-    private var noteListSelected = mutableListOf<Boolean>()
+    private var noteList = mutableListOf<Note>()
     private lateinit var downloadLocation: File
     private var sharedPrefs = "Steven's Notebook App"
 
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         loadPrefs(sharedPrefs) // get the preferences
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(noteList,noteListSelected,this)
+        viewAdapter = MyAdapter(noteList,this)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -77,24 +81,29 @@ class MainActivity : AppCompatActivity() {
             val input = EditText(this)
             input.inputType = InputType.TYPE_CLASS_TEXT
             builder.setView(input)
-            builder.setPositiveButton("Add") { _, _ -> noteList.add(input.text.toString());noteListSelected.add(false); viewAdapter.notifyDataSetChanged()  }
+            builder.setPositiveButton("Add") { _, _ -> noteList.add(Note(input.text.toString(),false)); viewAdapter.notifyDataSetChanged()  }
             builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
             builder.show()
             true
         }
         R.id.action_delete -> {
-            noteListSelected = viewAdapter.getSelected()
-            var tempNoteList = noteList
-            var tempNoteListSelected = noteListSelected
-            for(i in 1 until noteListSelected.size){
-                if(!noteListSelected[i]){
-                    tempNoteList.removeAt(i)
-                    tempNoteListSelected.removeAt(i)
+            // https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
+            Log.d("delete", noteList.toString())
+            var deleteNumber = 0
+            for (listPosition in 1..noteList.size) {
+                if (noteList[listPosition-1].selected){
+                    deleteNumber++
                 }
             }
-            noteList = tempNoteList
-            noteListSelected = tempNoteListSelected
-            viewAdapter.notifyDataSetChanged()
+            var temp = noteList.toMutableList()
+            while(deleteNumber != 0){
+                temp = deleteItem(temp)
+                Log.d("delete", deleteNumber.toString())
+                Log.d("delete", temp.toString())
+                deleteNumber--
+            }
+            noteList = temp
+            Log.d("delete", noteList.toString())
             true
         }
         R.id.action_credit -> {
@@ -118,6 +127,18 @@ class MainActivity : AppCompatActivity() {
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun deleteItem(list: MutableList<Note>): MutableList<Note> {
+        for (listPosition in 0..list.size) {
+            if (list[listPosition].selected){
+                list.removeAt(listPosition)
+                viewAdapter.newList(list)
+                viewAdapter.notifyItemRemoved(listPosition)
+                return list
+            }
+        }
+        return list
     }
 
     override fun onDestroy() {

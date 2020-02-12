@@ -82,5 +82,6 @@ class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : 
 
     fun newList(List: MutableList<Note>) {
         noteList = List
+        notifyItemRangeChanged(0, noteList.size);
     }
 }

@@ -77,12 +77,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_add -> {
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            builder.setTitle("Write Note")
+            builder.setTitle(resources.getString(R.string.writenote))
             val input = EditText(this)
             input.inputType = InputType.TYPE_CLASS_TEXT
             builder.setView(input)
-            builder.setPositiveButton("Add") { _, _ -> noteList.add(Note(input.text.toString(),false)); viewAdapter.notifyDataSetChanged()  }
-            builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+            builder.setPositiveButton(resources.getString(R.string.add)) { _, _ -> noteList.add(Note(input.text.toString(),false)); viewAdapter.notifyDataSetChanged()  }
+            builder.setNegativeButton(resources.getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
             builder.show()
             true
         }
@@ -108,16 +108,16 @@ class MainActivity : AppCompatActivity() {
         }
         R.id.action_credit -> {
             val dDialog = AlertDialog.Builder(this, R.style.AppTheme_DialogTheme)
-                .setTitle("Credits")
+                .setTitle(resources.getString(R.string.credit))
                 .setMessage(
-                    System.getProperty("line.separator") + System.getProperty("line.separator") + "Add button designed by Kiranshastry from www.Flaticon.com"
-                            + System.getProperty("line.separator") + System.getProperty("line.separator") + "Delete button designed by Kiranshastry from www.Flaticon.com"
-                            + System.getProperty("line.separator") + System.getProperty("line.separator") + "pin icon designed by Smashicons from www.Flaticon.com"
-                            + System.getProperty("line.separator") + System.getProperty("line.separator") + "App by Steven Aanetsen."
+                    System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.addbuttoncredit)
+                            + System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.deletebuttoncredit)
+                            + System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.pinbuttoncredit)
+                            + System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.byme)
                 )
                 .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(true)
-                .setNegativeButton("Back") { dialog, _ -> dialog.cancel() }
+                .setNegativeButton(resources.getString(R.string.back)) { dialog, _ -> dialog.cancel() }
                 .create()
             dDialog.show()
             true
@@ -159,7 +159,7 @@ save preferences, comicList and favourites
         val editor = prefs.edit()
         editor.putBoolean("initialized", true)
         editor.apply()
-        Toast.makeText(applicationContext, "Preferences Saved", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, resources.getString(R.string.preferences_saved), Toast.LENGTH_SHORT).show()
         saveList(noteList, "noteList.json",downloadLocation)
     }
 
@@ -175,10 +175,10 @@ save preferences, comicList and favourites
             }else{
                 Toast.makeText(
                     applicationContext,
-                    "Comic list not found. No Comics in list.",
+                    resources.getString(R.string.notesnotfound),
                     Toast.LENGTH_LONG
                 ).show()
-                Log.d("error", "ComicList file was not found.")
+                Log.d("error", "NoteList file was not found.")
             }
 
             Toast.makeText(

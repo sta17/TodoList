@@ -68,7 +68,7 @@ internal fun loadList(filename: String, downloadLocation: File): MutableList<Not
             temp.add(Note(item,false))
         }
 
-        return temp;
+        return temp
     } finally {
         if (fis != null) {
             try {

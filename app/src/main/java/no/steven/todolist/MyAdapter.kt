@@ -47,12 +47,12 @@ class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : 
             v.noteimage.setOnClickListener {
                 if(pinState){
                     image.setImageDrawable(context.getDrawable(R.drawable.transparent))
-                    image.setSelected(false);
+                    image.isSelected = false
                     pinState = false
                     noteList[positionHolder].selected = pinState
                 } else {
                     image.setImageDrawable(context.getDrawable(R.drawable.pin))
-                    image.setSelected(true);
+                    image.isSelected = true
                     pinState = true
                     noteList[positionHolder].selected = pinState
                 }
@@ -82,6 +82,6 @@ class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : 
 
     fun newList(List: MutableList<Note>) {
         noteList = List
-        notifyItemRangeChanged(0, noteList.size);
+        notifyItemRangeChanged(0, noteList.size)
     }
 }

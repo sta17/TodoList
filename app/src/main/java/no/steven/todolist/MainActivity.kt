@@ -25,6 +25,9 @@ import java.io.File
 // https://www.flaticon.com/free-icon/pen_1159725 - add icon
 // https://www.flaticon.com/free-icon/pin_2491655?term=pin&page=1&position=20 - pin Icon
 
+// https://abhiandroid.com/ui/expandablelistview
+// https://github.com/davideas/FlexibleAdapter
+
 data class Note (
     var content: String,
     var selected: Boolean

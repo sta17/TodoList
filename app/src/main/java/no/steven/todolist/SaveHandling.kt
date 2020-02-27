@@ -1,8 +1,5 @@
 package no.steven.todolist
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import java.io.*
 
 //list saving.

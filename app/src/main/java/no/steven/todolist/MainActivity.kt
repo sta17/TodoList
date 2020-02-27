@@ -6,27 +6,35 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.InputType
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
 
-
+// ========================================= Tutorials ========================================== //
 // https://www.makeuseof.com/tag/beginner-programming-projects/
-
-// save list.
-// create object, write in text.
-// load list.
-// display list.
-
+//
+// =========================================== Icons ============================================ //
 // https://www.flaticon.com/free-icon/delete_1214428?term=garbage&page=1&position=4 - delete icon
 // https://www.flaticon.com/free-icon/pen_1159725 - add icon
 // https://www.flaticon.com/free-icon/pin_2491655?term=pin&page=1&position=20 - pin Icon
-
+//
+// https://www.flaticon.com/free-icon/folder_149334 - Folder Icon
+// https://www.flaticon.com/free-icon/camera_883787?term=camera&page=1&position=12 - Camera Icon
+// https://www.flaticon.com/free-icon/down-arrow_271210 - down/expand icon
+// https://www.flaticon.com/packs/pointers-3 - up/minimise icon
+//
+// ====================================== Generating lists ====================================== //
 // https://abhiandroid.com/ui/expandablelistview
 // https://github.com/davideas/FlexibleAdapter
+//
+// ================================ Expandable recyclerListView ================================= //
+// https://blog.usejournal.com/multi-level-expandable-recycler-view-e75cf1f4ac4b
+// https://acadgild.com/blog/expandable-recyclerview-in-android-with-examples
 
 data class Note (
     var content: String,
@@ -90,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_delete -> {
-            // https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
             Log.d("delete", noteList.toString())
             var deleteNumber = 0
             for (listPosition in 1..noteList.size) {

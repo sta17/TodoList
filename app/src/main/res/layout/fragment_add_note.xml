@@ -23,7 +23,7 @@
     <EditText
         android:id="@+id/addNote"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
         android:gravity="center"

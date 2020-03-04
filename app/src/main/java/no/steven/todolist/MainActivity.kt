@@ -9,8 +9,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import no.steven.todolist.fragments.Credit
 import no.steven.todolist.fragments.MakeNote
 import no.steven.todolist.fragments.NoteList
@@ -39,14 +37,9 @@ import java.io.File
 
 class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: MyAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
     private var noteList = mutableListOf<Note>()
     private lateinit var downloadLocation: File
     private var sharedPrefs = "Steven's Notebook App"
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,20 +51,6 @@ class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
         downloadLocation = this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!
 
         loadPrefs(sharedPrefs) // get the preferences
-
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(noteList,this)
-        recyclerView = findViewById<RecyclerView>(R.id.noteRecyclerView).apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            setHasFixedSize(true)
-
-            // use a linear layout manager
-            layoutManager = viewManager
-
-            // specify an viewAdapter (see also next example)
-            adapter = viewAdapter
-        }
 
         val bundle = Bundle()
         bundle.putParcelableArrayList("note",ArrayList(noteList.toList()))
@@ -102,20 +81,25 @@ class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
         }
         R.id.action_delete -> {
             Log.d("delete", noteList.toString())
+
+            val myFragment: NoteList = supportFragmentManager.findFragmentByTag("list") as NoteList
+            var tempList = myFragment.getList()
+            Log.d("delete","size:" + tempList.size + " list:" + tempList.toString())
+
             var deleteNumber = 0
-            for (listPosition in 1..noteList.size) {
-                if (noteList[listPosition-1].selected){
+            for (listPosition in 1..tempList.size) {
+                if (tempList[listPosition-1].selected){
                     deleteNumber++
                 }
             }
-            var temp = noteList.toMutableList()
+
             while(deleteNumber != 0){
-                temp = deleteItem(temp)
+                tempList = deleteItem(tempList)
                 Log.d("delete", deleteNumber.toString())
-                Log.d("delete", temp.toString())
+                Log.d("delete", tempList.toString())
                 deleteNumber--
             }
-            noteList = temp
+            noteList = tempList
             Log.d("delete", noteList.toString())
             true
         }
@@ -132,8 +116,8 @@ class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
         for (listPosition in 0..list.size) {
             if (list[listPosition].selected){
                 list.removeAt(listPosition)
-                viewAdapter.newList(list)
-                viewAdapter.notifyItemRemoved(listPosition)
+                val myFragment: NoteList = supportFragmentManager.findFragmentByTag("list") as NoteList
+                myFragment.deleteItem(list,listPosition)
                 return list
             }
         }

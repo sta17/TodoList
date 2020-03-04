@@ -1,18 +1,17 @@
 package no.steven.todolist
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
-import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import no.steven.todolist.fragments.Credit
+import no.steven.todolist.fragments.MakeNote
+import no.steven.todolist.fragments.NoteList
 import java.io.File
 
 // ========================================= Tutorials ========================================== //
@@ -36,16 +35,7 @@ import java.io.File
 // https://blog.usejournal.com/multi-level-expandable-recycler-view-e75cf1f4ac4b
 // https://acadgild.com/blog/expandable-recyclerview-in-android-with-examples
 
-data class Note (
-    var content: String,
-    var selected: Boolean
-)
-
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: MyAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
+class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
 
     private var noteList = mutableListOf<Note>()
     private lateinit var downloadLocation: File
@@ -63,19 +53,19 @@ class MainActivity : AppCompatActivity() {
 
         loadPrefs(sharedPrefs) // get the preferences
 
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(noteList,this)
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            setHasFixedSize(true)
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("note",ArrayList(noteList.toList()))
+        val fragment = NoteList()
+        fragment.arguments = bundle
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.frameLayout, fragment,"list")
+        fragmentTransaction.commit()
 
-            // use a linear layout manager
-            layoutManager = viewManager
-
-            // specify an viewAdapter (see also next example)
-            adapter = viewAdapter
+        supportFragmentManager.addOnBackStackChangedListener {
+            val myFragment: NoteList = supportFragmentManager.findFragmentByTag("list") as NoteList
+            myFragment.newList(noteList)
         }
+
     }
 
     //setting menu in action bar
@@ -87,14 +77,7 @@ class MainActivity : AppCompatActivity() {
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_add -> {
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            builder.setTitle(resources.getString(R.string.writenote))
-            val input = EditText(this)
-            input.inputType = InputType.TYPE_CLASS_TEXT
-            builder.setView(input)
-            builder.setPositiveButton(resources.getString(R.string.add)) { _, _ -> noteList.add(Note(input.text.toString(),false)); viewAdapter.notifyDataSetChanged()  }
-            builder.setNegativeButton(resources.getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
-            builder.show()
+            loadFragment(MakeNote(), Bundle(),"MakeNote")
             true
         }
         R.id.action_delete -> {
@@ -117,24 +100,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_credit -> {
-            val dDialog = AlertDialog.Builder(this, R.style.AppTheme_DialogTheme)
-                .setTitle(resources.getString(R.string.credit))
-                .setMessage(
-                    System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.addbuttoncredit)
-                            + System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.deletebuttoncredit)
-                            + System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.pinbuttoncredit)
-                            + System.getProperty("line.separator") + System.getProperty("line.separator") + resources.getString(R.string.byme)
-                )
-                .setIcon(R.mipmap.ic_launcher)
-                .setCancelable(true)
-                .setNegativeButton(resources.getString(R.string.back)) { dialog, _ -> dialog.cancel() }
-                .create()
-            dDialog.show()
+            loadFragment(Credit(),Bundle(),"Credit")
             true
         }
         else -> {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
     }
@@ -162,8 +131,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /*
-save preferences, comicList and favourites
- */
+    save preferences, comicList and favourites
+    */
     private fun saveState(sharedPrefs: String) {
         val prefs = getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE)
         val editor = prefs.edit()
@@ -174,8 +143,8 @@ save preferences, comicList and favourites
     }
 
     /*
-        load preferences, comicList and favourites
-         */
+     load preferences, comicList and favourites
+     */
     private fun loadPrefs(sharedPrefs: String) {
         val prefs = getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE)
         if ((prefs.contains("initialized")) && (prefs.getBoolean("initialized", false))) {
@@ -203,6 +172,20 @@ save preferences, comicList and favourites
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun loadFragment(fragment: Fragment, bundle: Bundle, Name: String) {
+        fragment.arguments = bundle
+        var manager = supportFragmentManager.beginTransaction()
+        manager.replace(R.id.frameLayout, fragment)
+        manager.addToBackStack(Name)
+        manager.commit()
+    }
+
+    override fun sendNote(note: Note?) {
+        Log.d("noteList", "before$noteList")
+        noteList.add(note!!)
+        Log.d("noteList", "after$noteList")
     }
 
 }

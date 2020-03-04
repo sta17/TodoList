@@ -1,6 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TodoList</string>
+    <string name="app_name">TodoList Demo</string>
     <string name="add">Add</string>
+    <string name="note">note</string>
+    <string name="title">Title</string>
+    <string name="add_note">Add Note</string>
+    <string name="back">Back</string>
+    <string name="credits">Credits</string>
+    <string name="notes">Notes</string>
+
+    <string-array name="credits_list">
+        <item>Add button designed by Kiranshastry from www.Flaticon.com</item>
+        <item></item>
+        <item>Delete button designed by Kiranshastry from www.Flaticon.com</item>
+        <item></item>
+        <item>Pin icon designed by Smashicons from www.Flaticon.com</item>
+        <item></item>
+        <item>App by Steven Aanetsen.</item>
+    </string-array>
+
+    <string name="purpose_title">The Title of the note.</string>
+    <string name="purpose_note_body">The main body of the note.</string>
+
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="temp_text">Temp</string>
@@ -9,13 +30,8 @@
     <string name="new_app_set_up">New App Set up</string>
     <string name="writenote">Write Note</string>
     <string name="hint_password">Your Note</string>
-    <string name="credit">Credits</string>
     <string name="pin_marker">pin marker</string>
     <string name="todo">TODO</string>
-    <string name="back">Back</string>
     <string name="notesnotfound">Notelist not found. No Notes in list.</string>
-    <string name="byme">App by Steven Aanetsen.</string>
-    <string name="addbuttoncredit">Add button designed by Kiranshastry from www.Flaticon.com</string>
-    <string name="deletebuttoncredit">Delete button designed by Kiranshastry from www.Flaticon.com</string>
-    <string name="pinbuttoncredit">Pin icon designed by Smashicons from www.Flaticon.com</string>
+
 </resources>

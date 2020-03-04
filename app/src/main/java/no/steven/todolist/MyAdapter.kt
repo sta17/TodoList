@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.noteview.view.*
 
 class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 

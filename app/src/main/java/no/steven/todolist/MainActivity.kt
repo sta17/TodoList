@@ -9,6 +9,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import no.steven.todolist.fragments.Credit
 import no.steven.todolist.fragments.MakeNote
 import no.steven.todolist.fragments.NoteList
@@ -37,6 +39,10 @@ import java.io.File
 
 class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: MyAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
     private var noteList = mutableListOf<Note>()
     private lateinit var downloadLocation: File
     private var sharedPrefs = "Steven's Notebook App"
@@ -52,6 +58,20 @@ class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
         downloadLocation = this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!
 
         loadPrefs(sharedPrefs) // get the preferences
+
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = MyAdapter(noteList,this)
+        recyclerView = findViewById<RecyclerView>(R.id.noteRecyclerView).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
+        }
 
         val bundle = Bundle()
         bundle.putParcelableArrayList("note",ArrayList(noteList.toList()))

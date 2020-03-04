@@ -47,8 +47,8 @@ class NoteList : Fragment() {
 
     class NoteAdapter(var noteList: MutableList<Note>) : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
         class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-            val titleDisplay: TextView = v.findViewById(R.id.addTitle)
-            val noteDisplay: TextView = v.findViewById(R.id.cardContent)
+            val titleDisplay: TextView = v.findViewById(R.id.noteTitle)
+            val noteDisplay: TextView = v.findViewById(R.id.noteContent)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

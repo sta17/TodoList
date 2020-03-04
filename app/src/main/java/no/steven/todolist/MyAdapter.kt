@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.noteview.view.*
 
 class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
@@ -20,6 +21,7 @@ class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : 
     // Each data item is just a string in this case that is shown in a TextView.
     class MyViewHolder(v: View, context: Context,noteList: MutableList<Note>) : RecyclerView.ViewHolder(v) {
         val textDisplay: Button
+        val titleDisplay: Button
         private var image: ImageButton
         var pinState: Boolean = false
         var positionHolder = 0
@@ -27,17 +29,30 @@ class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : 
         init {
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener { Log.d("test", "Element $adapterPosition clicked.") }
-            textDisplay = v.findViewById(R.id.notebutton)
+            titleDisplay = v.findViewById(R.id.noteTitle)
+            textDisplay = v.findViewById(R.id.noteContent)
             image = v.findViewById(R.id.noteimage)
-            v.notebutton.setOnClickListener {
-                    var text = v.notebutton.text.toString()
+            v.noteTitle.setOnClickListener {
+                var text = v.noteTitle.text.toString()
+                val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+                builder.setTitle("Edit Note")
+                val input = EditText(context)
+                input.inputType = InputType.TYPE_CLASS_TEXT
+                input.setText(text)
+                builder.setView(input)
+                builder.setPositiveButton("Finish") { _, _ -> v.noteTitle.text = input.text.toString(); noteList[positionHolder].title = input.text.toString() }
+                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                builder.show()
+            }
+            v.noteContent.setOnClickListener {
+                    var text = v.noteContent.text.toString()
                     val builder: AlertDialog.Builder = AlertDialog.Builder(context)
                     builder.setTitle("Edit Note")
                     val input = EditText(context)
                     input.inputType = InputType.TYPE_CLASS_TEXT
                     input.setText(text)
                 builder.setView(input)
-                    builder.setPositiveButton("Finish") { _, _ -> v.notebutton.text = input.text.toString(); noteList[positionHolder].content = input.text.toString() }
+                    builder.setPositiveButton("Finish") { _, _ -> v.noteContent.text = input.text.toString(); noteList[positionHolder].noteText = input.text.toString() }
                     builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
                     builder.show()
             }
@@ -70,7 +85,8 @@ class MyAdapter(var noteList: MutableList<Note>,private var context: Context) : 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textDisplay.text = noteList[position].content
+        holder.titleDisplay.text = noteList[position].title
+        holder.textDisplay.text = noteList[position].noteText
         holder.positionHolder = position
     }
 

@@ -44,7 +44,7 @@ class MakeNote : Fragment() {
         // perform setOnClickListener on second Button
         tempView.addAdd.setOnClickListener {
             //get note text
-            val title = tempView.addTitle.editableText.toString()
+            val title = tempView.noteTitle.editableText.toString()
             val note = tempView.addNote.editableText.toString()
             // set up intent
             val intent = Intent(activity!!.baseContext, MainActivity::class.java)

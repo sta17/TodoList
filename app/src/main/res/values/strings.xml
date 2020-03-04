@@ -33,5 +33,6 @@
     <string name="pin_marker">pin marker</string>
     <string name="todo">TODO</string>
     <string name="notesnotfound">Notelist not found. No Notes in list.</string>
+    <string name="check_box">Check Box</string>
 
 </resources>

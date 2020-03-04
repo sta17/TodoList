@@ -10,7 +10,7 @@ internal fun saveList(noteList: MutableList<Note>, filename: String, downloadLoc
     temp.remove("temp")
 
     for(item in  noteList){
-        temp.add(item.content)
+        temp.add(item.noteText +"."+ item.title)
     }
 
     val text = temp.map { '"' + it + '"' }.toMutableList().toString()
@@ -24,7 +24,6 @@ internal fun saveList(noteList: MutableList<Note>, filename: String, downloadLoc
             )
         )
 
-        //fos = context.openFileOutput(filename, MODE_PRIVATE)
         fos.write(text.toByteArray())
         fos.close()
     } finally {
@@ -58,11 +57,12 @@ internal fun loadList(filename: String, downloadLocation: File): MutableList<Not
 
         var initialList = initialInput.split(",").map { it.trim() }.map{ it.dropLast(1)}.map{ it.drop(1)}.map { it.trim() }.toMutableList()
 
-        var temp: MutableList<Note> = mutableListOf(Note("temp",false))
+        var temp: MutableList<Note> = mutableListOf(Note("temp","temp",false))
         temp.removeAt(0)
 
         for(item in  initialList){
-            temp.add(Note(item,false))
+            var out = item.split(".").map { it.trim() }
+            temp.add(Note(out[0],out[1],false))
         }
 
         return temp

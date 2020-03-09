@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
+        android:backgroundTint="@color/White"
         android:ems="10"
         android:hint="@string/purpose_title"
         android:inputType="textShortMessage"
@@ -25,6 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
+        android:backgroundTint="@color/White"
         android:ems="10"
         android:gravity="center"
         android:hint="@string/purpose_note_body"
@@ -39,7 +41,9 @@
         android:id="@+id/addAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/White"
         android:text="@string/add"
+        android:theme="@style/AppTheme.ButtonTransparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,7 +51,9 @@
         android:id="@+id/addCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/White"
         android:text="@android:string/cancel"
+        android:theme="@style/AppTheme.ButtonTransparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addNote" />

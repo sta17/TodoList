@@ -18,8 +18,6 @@ import kotlinx.android.synthetic.main.noteview.view.*
 import no.steven.todolist.Note
 import no.steven.todolist.R
 
-//TODO: Make the Fragment and list detect changes, and thus update.
-
 class NoteList : Fragment() {
     private var noteList = mutableListOf<Note>()
     private lateinit var viewAdapter: NoteAdapter
@@ -80,26 +78,10 @@ class NoteList : Fragment() {
                 titleDisplay = v.findViewById(R.id.noteTitle)
                 textDisplay = v.findViewById(R.id.noteContent)
                 v.noteTitle.setOnClickListener {
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-                    builder.setTitle("Edit Note")
-                    val input = EditText(context)
-                    input.inputType = InputType.TYPE_CLASS_TEXT
-                    input.setText(v.noteTitle.text.toString())
-                    builder.setView(input)
-                    builder.setPositiveButton("Finish") { _, _ -> v.noteTitle.text = input.text.toString(); noteList[positionHolder].title = input.text.toString() }
-                    builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-                    builder.show()
+                    changeDialog(v.noteTitle, positionHolder,context,noteList)
                 }
                 v.noteContent.setOnClickListener {
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-                    builder.setTitle("Edit Note")
-                    val input = EditText(context)
-                    input.inputType = InputType.TYPE_CLASS_TEXT
-                    input.setText(v.noteContent.text.toString())
-                    builder.setView(input)
-                    builder.setPositiveButton("Finish") { _, _ -> v.noteContent.text = input.text.toString(); noteList[positionHolder].noteText = input.text.toString() }
-                    builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-                    builder.show()
+                    changeDialog(v.noteContent, positionHolder,context,noteList)
                 }
                 v.noteimage.setOnClickListener {
                     if(pinState){
@@ -114,6 +96,20 @@ class NoteList : Fragment() {
                         noteList[positionHolder].selected = pinState
                     }
                 }
+            }
+
+            private fun changeDialog(
+                source: Button, positionHolder: Int, context: Context,
+                noteList: MutableList<Note>) {
+                var builder: AlertDialog.Builder = AlertDialog.Builder(context)
+                builder.setTitle("Edit Note")
+                var input = EditText(context)
+                input.inputType = InputType.TYPE_CLASS_TEXT
+                input.setText(source.text.toString())
+                var view = builder.setView(input)
+                builder.setPositiveButton("Finish") { _, _ -> source.text = input.text.toString(); noteList[this.positionHolder].noteText = input.text.toString() }
+                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                builder.show()
             }
         }
 

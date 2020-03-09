@@ -1,23 +1,23 @@
 package no.steven.todolist.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_add_note.view.*
-import no.steven.todolist.MainActivity
 import no.steven.todolist.Note
 import no.steven.todolist.R
 
 class MakeNote : Fragment() {
     private lateinit var tempView: View
     private var mCallback: AddClicked? = null
+    private var number = 0
 
     interface AddClicked {
-        fun sendNote(note: Note?)
+        fun sendNote(note: Note?,edited: Boolean,number:Int)
     }
 
     override fun onAttach(context: Context) {
@@ -41,16 +41,23 @@ class MakeNote : Fragment() {
     ): View? { // Inflate the layout for this fragment
         tempView = inflater.inflate(R.layout.fragment_add_note, container, false)
 
+        if((arguments != null) && (arguments!!.containsKey("edit")) ){
+            tempView.noteTitle.text = SpannableStringBuilder(arguments!!.getString("noteTitle"))
+            tempView.addNote.text = SpannableStringBuilder(arguments!!.getString("noteText"))
+            tempView.addAdd.text = resources.getString(R.string.change)
+            number = arguments!!.getInt("editNumber")
+        }
+
         // perform setOnClickListener on second Button
         tempView.addAdd.setOnClickListener {
             //get note text
             val title = tempView.noteTitle.editableText.toString()
             val note = tempView.addNote.editableText.toString()
-            // set up intent
-            val intent = Intent(activity!!.baseContext, MainActivity::class.java)
-            intent.putExtra("noteTitle",title)
-            intent.putExtra("noteNote",note)
-            mCallback!!.sendNote(Note(note, title, false))
+            if((arguments != null) && (arguments!!.containsKey("edit")) ){
+                mCallback!!.sendNote(Note(note, title, false),true,number)
+            }else {
+                mCallback!!.sendNote(Note(note, title, false),false,number)
+            }
             activity!!.supportFragmentManager.popBackStack()
         }
         tempView.addCancel.setOnClickListener {

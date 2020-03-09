@@ -26,17 +26,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:backgroundTint="@color/White"
                     android:padding="5dp"
-                    android:text="@string/title"
-                    android:theme="@style/AppTheme.ButtonTransparent" />
+                    android:text="@string/title" />
 
                 <Button
                     android:id="@+id/noteContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/White"
                     android:padding="5dp"
-                    android:text="@string/note"
-                    android:theme="@style/AppTheme.ButtonTransparent" />
+                    android:text="@string/note" />
         </LinearLayout>
 
 
@@ -44,11 +44,13 @@
             android:id="@+id/noteimage"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@color/White"
             android:contentDescription="@string/check_box"
-            android:theme="@style/AppTheme.ButtonTransparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/transparent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

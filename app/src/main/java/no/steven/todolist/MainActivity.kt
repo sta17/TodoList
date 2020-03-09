@@ -35,6 +35,8 @@ import java.io.File
 // https://blog.usejournal.com/multi-level-expandable-recycler-view-e75cf1f4ac4b
 // https://acadgild.com/blog/expandable-recyclerview-in-android-with-examples
 
+//TODO: Implement proper edit using add fragment, new activity communication? add/edit from NoteList fragment?
+
 class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
 
     private var noteList = mutableListOf<Note>()
@@ -186,9 +188,13 @@ class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
         manager.commit()
     }
 
-    override fun sendNote(note: Note?) {
+    override fun sendNote(note: Note?,edited: Boolean,number: Int) {
         Log.d("noteList", "before$noteList")
-        noteList.add(note!!)
+        if(edited){
+            noteList[number] = note!!
+        } else {
+            noteList.add(note!!)
+        }
         Log.d("noteList", "after$noteList")
     }
 

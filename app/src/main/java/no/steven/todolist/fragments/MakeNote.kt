@@ -13,10 +13,10 @@ import no.steven.todolist.R
 
 class MakeNote : Fragment() {
     private lateinit var tempView: View
-    private var mCallback: AddClicked? = null
+    private var mCallback: MakeNoteCommunication? = null
     private var number = 0
 
-    interface AddClicked {
+    interface MakeNoteCommunication {
         fun sendNote(note: Note?,edited: Boolean,number:Int)
     }
 
@@ -25,11 +25,11 @@ class MakeNote : Fragment() {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         mCallback = try {
-            activity as AddClicked
+            activity as MakeNoteCommunication
         } catch (e: ClassCastException) {
             throw ClassCastException(
                 activity.toString()
-                        + " must implement TextClicked"
+                        + " must implement AddClicked"
             )
         }
     }

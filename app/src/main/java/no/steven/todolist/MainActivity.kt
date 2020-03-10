@@ -15,7 +15,7 @@ import no.steven.todolist.fragments.NoteList
 import java.io.File
 
 // ========================================= Tutorials ========================================== //
-// https://www.makeuseof.com/tag/beginner-programming-projects/
+// https://www.makeuseof.com/tag/beginner-programming-projects/ - tutorial is number 4, match features
 //
 // =========================================== Icons ============================================ //
 // https://www.flaticon.com/free-icon/delete_1214428?term=garbage&page=1&position=4 - delete icon
@@ -35,9 +35,7 @@ import java.io.File
 // https://blog.usejournal.com/multi-level-expandable-recycler-view-e75cf1f4ac4b
 // https://acadgild.com/blog/expandable-recyclerview-in-android-with-examples
 
-//TODO: Implement proper edit using add fragment, new activity communication? add/edit from NoteList fragment?
-
-class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
+class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteList.NoteListCommunication {
 
     private var noteList = mutableListOf<Note>()
     private lateinit var downloadLocation: File
@@ -192,10 +190,24 @@ class MainActivity : AppCompatActivity(), MakeNote.AddClicked {
         Log.d("noteList", "before$noteList")
         if(edited){
             noteList[number] = note!!
+            val myFragment: NoteList = supportFragmentManager.findFragmentByTag("list") as NoteList
+            myFragment.newList(noteList)
         } else {
             noteList.add(note!!)
         }
         Log.d("noteList", "after$noteList")
+    }
+
+    override fun startEditor(note: Note?, position: Int) {
+        val bundle = Bundle()
+        bundle.putBoolean("edit",true)
+        bundle.putString("noteTitle",note!!.title)
+        bundle.putString("noteText", note.noteText)
+        bundle.putInt("editNumber",position)
+
+        val fragment = NoteList()
+        fragment.arguments = bundle
+        loadFragment(MakeNote(), bundle,"MakeNote")
     }
 
 }

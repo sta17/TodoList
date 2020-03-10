@@ -2,14 +2,11 @@ package no.steven.todolist.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +18,25 @@ import no.steven.todolist.R
 class NoteList : Fragment() {
     private var noteList = mutableListOf<Note>()
     private lateinit var viewAdapter: NoteAdapter
+    private var mCallback: NoteListCommunication? = null
+
+    interface NoteListCommunication {
+        fun startEditor(note: Note?,position: Int)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(activity!!.applicationContext)
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        mCallback = try {
+            activity as NoteListCommunication
+        } catch (e: ClassCastException) {
+            throw ClassCastException(
+                activity.toString()
+                        + " must implement launchAddEdit"
+            )
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +51,7 @@ class NoteList : Fragment() {
         }
 
         viewAdapter =
-            NoteAdapter(noteList, this.context as Context)
+            NoteAdapter(noteList, this.context as Context, mCallback)
         tempView.noteRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
@@ -49,7 +65,6 @@ class NoteList : Fragment() {
         viewAdapter.noteList = List
         Log.d("noteList", "Changes:$noteList")
         viewAdapter.notifyItemRangeChanged(0, noteList.size)
-        //viewAdapter.notifyDataSetChanged()
     }
 
     fun getList(): MutableList<Note> {
@@ -64,9 +79,23 @@ class NoteList : Fragment() {
         //viewAdapter.notifyDataSetChanged()
     }
 
-    class NoteAdapter(var noteList: MutableList<Note>, private var context: Context) : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
+    override fun onDetach() {
+        mCallback = null // => avoid leaking, thanks @Deepscorn
+        super.onDetach()
+    }
 
-        class MyViewHolder(v: View, context: Context,noteList: MutableList<Note>) : RecyclerView.ViewHolder(v) {
+    class NoteAdapter(
+        var noteList: MutableList<Note>,
+        private var context: Context,
+        private var mCallback: NoteListCommunication?
+    ) : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
+
+        class MyViewHolder(
+            v: View,
+            context: Context,
+            noteList: MutableList<Note>,
+            private var mCallback: NoteListCommunication?
+        ) : RecyclerView.ViewHolder(v) {
             val textDisplay: Button
             val titleDisplay: Button
             private var pinState: Boolean = false
@@ -78,10 +107,10 @@ class NoteList : Fragment() {
                 titleDisplay = v.findViewById(R.id.noteTitle)
                 textDisplay = v.findViewById(R.id.noteContent)
                 v.noteTitle.setOnClickListener {
-                    changeDialog(v.noteTitle, positionHolder,context,noteList)
+                    mCallback!!.startEditor(noteList[positionHolder],positionHolder)
                 }
                 v.noteContent.setOnClickListener {
-                    changeDialog(v.noteContent, positionHolder,context,noteList)
+                    mCallback!!.startEditor(noteList[positionHolder],positionHolder)
                 }
                 v.noteimage.setOnClickListener {
                     if(pinState){
@@ -97,20 +126,6 @@ class NoteList : Fragment() {
                     }
                 }
             }
-
-            private fun changeDialog(
-                source: Button, positionHolder: Int, context: Context,
-                noteList: MutableList<Note>) {
-                var builder: AlertDialog.Builder = AlertDialog.Builder(context)
-                builder.setTitle("Edit Note")
-                var input = EditText(context)
-                input.inputType = InputType.TYPE_CLASS_TEXT
-                input.setText(source.text.toString())
-                var view = builder.setView(input)
-                builder.setPositiveButton("Finish") { _, _ -> source.text = input.text.toString(); noteList[this.positionHolder].noteText = input.text.toString() }
-                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-                builder.show()
-            }
         }
 
         // Create new views (invoked by the layout manager)
@@ -119,7 +134,8 @@ class NoteList : Fragment() {
             return MyViewHolder(
                 v,
                 context,
-                noteList
+                noteList,
+                mCallback
             )
         }
 

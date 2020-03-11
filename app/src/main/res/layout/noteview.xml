@@ -24,8 +24,6 @@
                     android:id="@+id/noteTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:backgroundTint="@color/White"
                     android:padding="5dp"
                     android:text="@string/title" />
@@ -34,6 +32,8 @@
                     android:id="@+id/noteContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:backgroundTint="@color/White"
                     android:padding="5dp"
                     android:text="@string/note" />

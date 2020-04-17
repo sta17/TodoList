@@ -34,10 +34,14 @@ import java.io.File
 // ================================ Expandable recyclerListView ================================= //
 // https://blog.usejournal.com/multi-level-expandable-recycler-view-e75cf1f4ac4b
 // https://acadgild.com/blog/expandable-recyclerview-in-android-with-examples
+// https://github.com/luizgrp/SectionedRecyclerViewAdapter
+// https://stackoverflow.com/questions/28389052/how-can-i-implement-a-material-design-expand-collapse-list-on-android
+
+//TODO: merge the two layout versions for the note and image into one.
 
 class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteList.NoteListCommunication {
 
-    private var noteList = mutableListOf<Note>()
+    private var noteList = mutableListOf<NoteNew>()
     private lateinit var downloadLocation: File
     private var sharedPrefs = "Steven's Notebook App"
 
@@ -112,7 +116,7 @@ class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteLis
         }
     }
 
-    private fun deleteItem(list: MutableList<Note>): MutableList<Note> {
+    private fun deleteItem(list: MutableList<NoteNew>): MutableList<NoteNew> {
         for (listPosition in 0..list.size) {
             if (list[listPosition].selected){
                 list.removeAt(listPosition)
@@ -158,7 +162,7 @@ class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteLis
             }else{
                 Toast.makeText(
                     applicationContext,
-                    resources.getString(R.string.notesnotfound),
+                    resources.getString(R.string.notes_not_found),
                     Toast.LENGTH_LONG
                 ).show()
                 Log.d("error", "NoteList file was not found.")
@@ -186,7 +190,7 @@ class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteLis
         manager.commit()
     }
 
-    override fun sendNote(note: Note?,edited: Boolean,number: Int) {
+    override fun sendNote(note: NoteNew?,edited: Boolean,number: Int) {
         Log.d("noteList", "before$noteList")
         if(edited){
             noteList[number] = note!!
@@ -198,11 +202,11 @@ class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteLis
         Log.d("noteList", "after$noteList")
     }
 
-    override fun startEditor(note: Note?, position: Int) {
+    override fun startEditor(note: NoteNew?, position: Int) {
         val bundle = Bundle()
         bundle.putBoolean("edit",true)
         bundle.putString("noteTitle",note!!.title)
-        bundle.putString("noteText", note.noteText)
+        bundle.putString("noteText", note.noteItemsList.toString())
         bundle.putInt("editNumber",position)
 
         val fragment = NoteList()

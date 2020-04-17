@@ -52,7 +52,7 @@ class Credit : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false))
+            return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.credit_list_item, parent, false))
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

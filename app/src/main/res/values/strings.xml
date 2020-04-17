@@ -29,11 +29,11 @@
     <string name="preferences_loaded">Preferences Loaded</string>
     <string name="preferences_saved">Preferences Saved</string>
     <string name="new_app_set_up">New App Set up</string>
-    <string name="writenote">Write Note</string>
+    <string name="write_note">Write Note</string>
     <string name="hint_password">Your Note</string>
     <string name="pin_marker">pin marker</string>
     <string name="todo">TODO</string>
-    <string name="notesnotfound">Notelist not found. No Notes in list.</string>
+    <string name="notes_not_found">Notelist not found. No Notes in list.</string>
     <string name="check_box">Check Box</string>
 
 </resources>

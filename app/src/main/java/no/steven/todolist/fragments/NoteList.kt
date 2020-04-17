@@ -11,17 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_note_list.view.*
-import kotlinx.android.synthetic.main.noteview.view.*
-import no.steven.todolist.Note
+import kotlinx.android.synthetic.main.note_list_item.view.*
+import no.steven.todolist.NoteNew
 import no.steven.todolist.R
 
 class NoteList : Fragment() {
-    private var noteList = mutableListOf<Note>()
+    private var noteList = mutableListOf<NoteNew>()
     private lateinit var viewAdapter: NoteAdapter
     private var mCallback: NoteListCommunication? = null
 
     interface NoteListCommunication {
-        fun startEditor(note: Note?,position: Int)
+        fun startEditor(note: NoteNew?,position: Int)
     }
 
     override fun onAttach(context: Context) {
@@ -46,7 +46,7 @@ class NoteList : Fragment() {
         val tempView = inflater.inflate(R.layout.fragment_note_list, container, false)
 
         if((arguments != null) && (arguments!!.containsKey("note")) ){
-            noteList = arguments!!.getParcelableArrayList<Note>("note")!!.toMutableList()
+            noteList = arguments!!.getParcelableArrayList<NoteNew>("note")!!.toMutableList()
             Log.d("noteList", "Display:$noteList")
         }
 
@@ -61,17 +61,17 @@ class NoteList : Fragment() {
         return tempView
     }
 
-    fun newList(List: MutableList<Note>){
+    fun newList(List: MutableList<NoteNew>){
         viewAdapter.noteList = List
         Log.d("noteList", "Changes:$noteList")
         viewAdapter.notifyItemRangeChanged(0, noteList.size)
     }
 
-    fun getList(): MutableList<Note> {
+    fun getList(): MutableList<NoteNew> {
         return viewAdapter.noteList
     }
 
-    fun deleteItem(List: MutableList<Note>,position: Int){
+    fun deleteItem(List: MutableList<NoteNew>,position: Int){
         viewAdapter.noteList = List
         Log.d("noteList", "Changes:$noteList")
         viewAdapter.notifyItemRemoved(position)
@@ -85,7 +85,7 @@ class NoteList : Fragment() {
     }
 
     class NoteAdapter(
-        var noteList: MutableList<Note>,
+        var noteList: MutableList<NoteNew>,
         private var context: Context,
         private var mCallback: NoteListCommunication?
     ) : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
@@ -93,10 +93,9 @@ class NoteList : Fragment() {
         class MyViewHolder(
             v: View,
             context: Context,
-            noteList: MutableList<Note>,
+            noteList: MutableList<NoteNew>,
             private var mCallback: NoteListCommunication?
         ) : RecyclerView.ViewHolder(v) {
-            val textDisplay: Button
             val titleDisplay: Button
             private var pinState: Boolean = false
             var positionHolder = 0
@@ -105,11 +104,7 @@ class NoteList : Fragment() {
                 // Define click listener for the ViewHolder's View.
                 v.setOnClickListener { Log.d("test", "Element $adapterPosition clicked.") }
                 titleDisplay = v.findViewById(R.id.noteTitle)
-                textDisplay = v.findViewById(R.id.noteContent)
                 v.noteTitle.setOnClickListener {
-                    mCallback!!.startEditor(noteList[positionHolder],positionHolder)
-                }
-                v.noteContent.setOnClickListener {
                     mCallback!!.startEditor(noteList[positionHolder],positionHolder)
                 }
                 v.noteimage.setOnClickListener {
@@ -130,7 +125,7 @@ class NoteList : Fragment() {
 
         // Create new views (invoked by the layout manager)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val v = LayoutInflater.from(parent.context).inflate(R.layout.noteview, parent, false)
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false)
             return MyViewHolder(
                 v,
                 context,
@@ -142,7 +137,6 @@ class NoteList : Fragment() {
         // Replace the contents of a view (invoked by the layout manager)
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             holder.titleDisplay.text = noteList[position].title
-            holder.textDisplay.text = noteList[position].noteText
             holder.positionHolder = position
         }
 

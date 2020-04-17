@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_add_note.view.*
-import no.steven.todolist.Note
+import no.steven.todolist.NoteListItem
+import no.steven.todolist.NoteNew
 import no.steven.todolist.R
 
 class MakeNote : Fragment() {
@@ -17,7 +18,7 @@ class MakeNote : Fragment() {
     private var number = 0
 
     interface MakeNoteCommunication {
-        fun sendNote(note: Note?,edited: Boolean,number:Int)
+        fun sendNote(note: NoteNew?, edited: Boolean, number:Int)
     }
 
     override fun onAttach(context: Context) {
@@ -43,6 +44,7 @@ class MakeNote : Fragment() {
 
         if((arguments != null) && (arguments!!.containsKey("edit")) ){
             tempView.noteTitle.text = SpannableStringBuilder(arguments!!.getString("noteTitle"))
+            //TODO: Fix Adding
             tempView.addNote.text = SpannableStringBuilder(arguments!!.getString("noteText"))
             tempView.addAdd.text = resources.getString(R.string.change)
             number = arguments!!.getInt("editNumber")
@@ -53,10 +55,14 @@ class MakeNote : Fragment() {
             //get note text
             val title = tempView.noteTitle.editableText.toString()
             val note = tempView.addNote.editableText.toString()
+            var temp = NoteListItem(note, false)
+            var items = mutableListOf<NoteListItem>()
+            items.add(temp)
+            items.add(temp)
             if((arguments != null) && (arguments!!.containsKey("edit")) ){
-                mCallback!!.sendNote(Note(note, title, false),true,number)
+                mCallback!!.sendNote(NoteNew(items, title, false),true,number)
             }else {
-                mCallback!!.sendNote(Note(note, title, false),false,number)
+                mCallback!!.sendNote(NoteNew(items, title, false),false,number)
             }
             activity!!.supportFragmentManager.popBackStack()
         }

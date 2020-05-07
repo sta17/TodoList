@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="no.steven.todolist.fragments.MakeNote">
 
     <EditText
@@ -16,7 +15,7 @@
         android:ems="10"
         android:hint="@string/purpose_title"
         android:inputType="textShortMessage"
-        android:text="@string/title"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,30 +30,38 @@
         android:gravity="center"
         android:hint="@string/purpose_note_body"
         android:inputType="textLongMessage"
-        android:text="@string/note"
-        app:layout_constraintBottom_toTopOf="@+id/addAdd"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteTitle" />
 
-    <Button
-        android:id="@+id/addAdd"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/White"
-        android:text="@string/add"
-        android:theme="@style/AppTheme.ButtonTransparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/addCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/White"
-        android:text="@android:string/cancel"
-        android:theme="@style/AppTheme.ButtonTransparent"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addNote" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/addCancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/White"
+            android:text="@android:string/cancel"
+            android:theme="@style/AppTheme.ButtonTransparent" />
+
+        <Button
+            android:id="@+id/addAdd"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/White"
+            android:text="@string/add"
+            android:theme="@style/AppTheme.ButtonTransparent" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

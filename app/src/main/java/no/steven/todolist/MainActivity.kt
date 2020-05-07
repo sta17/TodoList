@@ -36,8 +36,11 @@ import java.io.File
 // https://acadgild.com/blog/expandable-recyclerview-in-android-with-examples
 // https://github.com/luizgrp/SectionedRecyclerViewAdapter
 // https://stackoverflow.com/questions/28389052/how-can-i-implement-a-material-design-expand-collapse-list-on-android
+// https://stackoverflow.com/questions/26890190/images-in-recyclerview
+// https://stackoverflow.com/questions/32144806/android-custom-dynamically-generated-compound-view-recreated-in-recyclerview
 
-//TODO: merge the two layout versions for the note and image into one.
+//TODO: Fix display of multiple points and pictures.
+//TODO: Fix the display for credits.
 
 class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteList.NoteListCommunication {
 
@@ -88,21 +91,26 @@ class MainActivity : AppCompatActivity(), MakeNote.MakeNoteCommunication,NoteLis
 
             val myFragment: NoteList = supportFragmentManager.findFragmentByTag("list") as NoteList
             var tempList = myFragment.getList()
-            Log.d("delete","size:" + tempList.size + " list:" + tempList.toString())
+            var replacementList = tempList
+            Log.d("delete","size: " + tempList.size + " list: " + tempList.toString())
 
-            var deleteNumber = 0
-            for (listPosition in 1..tempList.size) {
-                if (tempList[listPosition-1].selected){
-                    deleteNumber++
+                for (listPosition in (tempList.size-1) downTo  0) {
+
+                    if (tempList[listPosition].selected){
+                        Log.d("delete", "----------------------")
+                        Log.d("delete", "Current Number: $listPosition")
+                        Log.d("delete", "----------------------")
+
+                        var title = tempList[listPosition].title
+                        tempList.removeAt(listPosition)
+                        val myFragment: NoteList = supportFragmentManager.findFragmentByTag("list") as NoteList
+                        myFragment.deleteItem(tempList,listPosition)
+                        Log.d("delete", "Deleted: $title At Position: $listPosition")
+                        Log.d("delete", tempList.toString())
+                        Log.d("delete", "----------------------")
+
+                    }
                 }
-            }
-
-            while(deleteNumber != 0){
-                tempList = deleteItem(tempList)
-                Log.d("delete", deleteNumber.toString())
-                Log.d("delete", tempList.toString())
-                deleteNumber--
-            }
             noteList = tempList
             Log.d("delete", noteList.toString())
             true

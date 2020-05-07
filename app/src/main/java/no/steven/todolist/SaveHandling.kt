@@ -20,7 +20,7 @@ internal fun saveList(noteList: MutableList<NoteNew>, filename: String, download
         for (item2 in item.noteItemsList){
             val jObject2 = JSONObject()
             jObject2.put("noteText",item2.noteText.trim())
-            jObject2.put("image",item2.image)
+            jObject2.put("image",item2.isImage)
             jObject3.put(jObject2)
         }
         jObject.put("noteList",jObject3)

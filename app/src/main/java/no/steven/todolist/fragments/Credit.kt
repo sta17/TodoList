@@ -1,10 +1,9 @@
 package no.steven.todolist.fragments
 
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.TEXT_ALIGNMENT_CENTER
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -47,7 +46,7 @@ class Credit : Fragment() {
     class CreditAdapter(private val creditList: Array<String>) :
         RecyclerView.Adapter<CreditAdapter.MyViewHolder>() {
 
-        class MyViewHolder(v: View) : RecyclerView.ViewHolder(v){
+        inner class MyViewHolder(v: View) : RecyclerView.ViewHolder(v){
             val textView: TextView = v.findViewById(R.id.creditText)
         }
 
@@ -57,8 +56,6 @@ class Credit : Fragment() {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             holder.textView.text = creditList[position]
-            holder.textView.gravity = Gravity.CENTER
-            holder.textView.textAlignment =  TEXT_ALIGNMENT_CENTER
         }
 
         override fun getItemCount() = creditList.size

@@ -48,7 +48,6 @@
             android:contentDescription="@string/check_box"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

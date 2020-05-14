@@ -12,13 +12,12 @@
 
     <string-array name="credits_list">
         <item>Add button designed by Kiranshastry from www.Flaticon.com</item>
-        <item>1</item>
+        <item></item>
         <item>Delete button designed by Kiranshastry from www.Flaticon.com</item>
-        <item>2</item>
+        <item></item>
         <item>Pin icon designed by Smashicons from www.Flaticon.com</item>
-        <item>3</item>
+        <item></item>
         <item>App by Steven Aanetsen.</item>
-        <item>4</item>
     </string-array>
 
     <string name="purpose_title">The Title of the note.</string>
